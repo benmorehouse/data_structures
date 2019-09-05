@@ -20,7 +20,7 @@ stack::~stack(){
 }
 
 void stack::push(char c){
-	node *new_letter = this->create_letter(c);
+	node *new_node = this->create_letter(c);
 	if (this->is_empty()){
 		std::cout<<"was an empty stack"<<std::endl;	
 		this->top = new_node;
@@ -68,5 +68,4 @@ node* stack::create_letter(char c){
 	new_letter->prev = NULL;
 	return new_letter;
 }
-
 
