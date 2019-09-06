@@ -2,13 +2,11 @@
 #include "stack.h"
 
 int main(){
-	stack *mystack = new stack;
-	mystack->push('x');
-	mystack->push('y');
-	mystack->traverse();
-	delete mystack;
-
+	stack<char> mystack;	
+	mystack.push('c');
+	mystack.push('c');
+	mystack.push('c');
+	mystack.push('c');
+	mystack.traverse();	
+	return 0;
 }
-
-
-

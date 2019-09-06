@@ -5,7 +5,7 @@ default:
 
                 clear
 
-                cd ~/code/interview_practice/dataStruct/stack-cpp
+                cd ~/code/interview_practice/data_structures/stack-cpp
                 make 
                 ./cs
 
