@@ -1,39 +1,41 @@
-#ifndef STACK_H
-#define STACK_H
+#ifndef QUEUE_H
+#define QUEUE_H
 #include <iostream>
 
 template <typename T>
 struct node{
 	T data;
-	node <T> *prev; // this points to what is hypothetically below the element in the stack
+	node <T> *prev; // this points to what is hypothetically below the element in the queue 
 };
 
 
 template <typename T>
-class stack{
+class queue{
 	public:
-		stack();
-		~stack();
+		queue();
+		~queue();
 		void push(T input);
 		bool is_empty();
 		void traverse();
 		void pop();
-		T peak();
 		int return_size();
+		T peak();
+		T tail();
 	private:
 		int size; // only used for testing purposes
 		node <T> *top; // when returning of type node, indicate via template name
 		node <T> *create_node(T input);
+		node <T> *return_tail_node(); // used to return tail and also for deletion
 };
 
 template <typename T>
-stack<T>::stack(){
+queue<T>::queue(){
 	this->size = 0;
 	this->top = NULL;
 }
 
 template <typename T>
-stack<T>::~stack(){
+queue<T>::~queue(){
 	if (is_empty()){
 		return;
 	}else{
@@ -47,7 +49,7 @@ stack<T>::~stack(){
 }
 
 template <typename T>
-void stack<T>::push(T c){
+void queue<T>::push(T c){
 	node <T> *new_node = this->create_node(c);
 	if (this->is_empty()){
 		this->top = new_node;
@@ -62,7 +64,7 @@ void stack<T>::push(T c){
 }
 
 template <typename T>
-bool stack<T>::is_empty(){
+bool queue<T>::is_empty(){
 	if (this->top == NULL){
 		return true;
 	}
@@ -70,12 +72,12 @@ bool stack<T>::is_empty(){
 }
 
 template <typename T>
-void stack<T>::pop(){
+void queue<T>::pop(){
 	if (this->is_empty()){
 		return;
 	}else{
-		node <T> *temp = this->top;
-		this->top = this->top->prev;
+		node <T> *new_tail_temp = this->top;	
+		node <T> *temp = this->top->prev; 
 		delete temp;
 		temp = NULL;
 		this->size--;
@@ -83,7 +85,7 @@ void stack<T>::pop(){
 }
 
 template <typename T>
-void stack<T>::traverse(){ // get to here and the top->prev has nothing 
+void queue<T>::traverse(){ // get to here and the top->prev has nothing 
 	if (this->is_empty()){
 		return;
 	}else{
@@ -96,7 +98,20 @@ void stack<T>::traverse(){ // get to here and the top->prev has nothing
 }
 
 template <typename T>
-T stack<T>::peak(){
+node <T> *queue<T>::return_tail_node(){
+	if (this->is_empty()){
+		return NULL;
+	}else{
+		node <T> *temp = this->top;
+		while (temp->prev != NULL){
+			temp = temp->prev;
+		}
+		return temp;
+	}
+}
+
+template <typename T>
+T queue<T>::peak(){
 	if (this->is_empty()){
 		return 0;
 	}else{
@@ -105,7 +120,16 @@ T stack<T>::peak(){
 }
 
 template <typename T>
-node <T> * stack<T>::create_node(T c){
+T queue<T>::tail(){
+	if (this->is_empty()){
+		return;
+	}else{
+		return this->return_tail_node()->data;
+	}
+}
+
+template <typename T>
+node <T> * queue<T>::create_node(T c){
 	node <T> *new_node = new node<T>;
 	new_node->data = c;
 	new_node->prev = NULL;
@@ -113,7 +137,7 @@ node <T> * stack<T>::create_node(T c){
 }
 
 template <typename T>
-int stack<T>::return_size(){
+int queue<T>::return_size(){
 	if (this->is_empty()){
 		return 0;
 	}else{

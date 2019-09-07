@@ -1,6 +1,6 @@
 makefile
 .flow.yml
-stack.o
+queue.o
 main.cpp
 cs
 cs.dSYM
