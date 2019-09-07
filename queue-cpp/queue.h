@@ -76,12 +76,21 @@ void queue<T>::pop(){
 	if (this->is_empty()){
 		return;
 	}else{
-		node <T> *new_tail_temp = this->top;	
-		node <T> *temp = this->top->prev; 
-		delete temp;
-		temp = NULL;
-		this->size--;
+		node<T> *new_tail_node = this->top;
+		node<T> *temp =  new_tail_node->prev;
+		if (temp == NULL){ // this means there is only one element in the queue
+			delete new_tail_node; 
+			new_tail_node = NULL;
+		}else{
+			while (temp->prev != NULL){ 
+				new_tail_node = temp; 	
+				temp = temp->prev;
+			}
+			new_tail_node->prev = NULL;
+			delete temp;
+		}
 	}
+	this->size--;
 }
 
 template <typename T>
@@ -122,7 +131,7 @@ T queue<T>::peak(){
 template <typename T>
 T queue<T>::tail(){
 	if (this->is_empty()){
-		return;
+		return 0;
 	}else{
 		return this->return_tail_node()->data;
 	}
