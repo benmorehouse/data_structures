@@ -5,7 +5,6 @@ default:
 
                 clear
 
-                cd ~/code/school/linkedlist-cpp
-                make 
+                clang++ -g main.cpp linkedlist.cpp superlinkedlist.cpp -o cs 
                 ./cs
 

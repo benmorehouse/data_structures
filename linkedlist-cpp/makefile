@@ -1,3 +1,4 @@
-main: main.cpp linkedlist.cpp
-	clang++ -g main.cpp linkedlist.cpp -o cs
+main: main.cpp .o -o cs
+	clang++ -g main.cpp linkedlist.cpp superlinkedlist.cpp
+
 
