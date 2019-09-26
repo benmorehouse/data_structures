@@ -1,10 +1,9 @@
 ---
 default:
         cmd: | #/usr/bin/env bash
-
-
+                
                 clear
 
-                cd ~/code/datastruct/trie-golang
-                go build
-
+                cd ~/repositories/data_structures/trie-golang
+                go build gotrie.go
+                ./gotrie

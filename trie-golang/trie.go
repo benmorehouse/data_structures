@@ -1,24 +1,27 @@
 package main
 
-import(
-	"errors"
-)
+import "fmt"
 
 type trie struct{
-	root node
+	root *node
 }
 
 func (tree *trie) insert(word string){
 	current := tree.root
+
 	for _ , character := range word{
-		exists, index := check_if_character_exists(character,current.children)
+		fmt.Println(current.children)
+		fmt.Println("test")
+		exists, index := check_if_character_exists(byte(character),current.children)// this is breaking
 		if exists{
-			current = current.children[index]
-			current.count++
+			counterTemp := current.counter
+			*current = current.children[index]
+			current.counter = counterTemp
+			current.counter++
 		}else{
-			var new_node = node{character:character}
-			current.children = append(current.children, character)
-			current = new_node
+			var new_node = node{character:byte(character)}
+			current.children = append(current.children, new_node)
+			*current = new_node
 			current.counter++
 		}
 	}
@@ -26,29 +29,34 @@ func (tree *trie) insert(word string){
 	return
 }
 
-func (tree *trie) search(word string)(error){
+func (tree *trie) search(word string)(bool){
 	if tree.root == nil{
-		return errors.New("Error: trie is completely empty")
+		return false
 	}
 	current := tree.root
 	for _ , character := range word{
-		exists, index := check_if_character_exists(character, current.children)
+		exists, index := check_if_character_exists(byte(character), current.children)
 		if !exists{
-			err := errors.New("Error: string not found")
-			return err
+			return false
 		}else{
-			current = current.children[index]
+			*current = current.children[index]
 		}
 	}
 	if current.word_finished{
-		return nil
+		return true
 	}else{
-		return errors.New("Word not found")
+		return false
 	}
 }
 
-func check_if_character_exists(input byte, characters []byte)(bool,int){
-	for i , val := range chacters{
+func check_if_character_exists(input byte, children_nodes []node)(bool,int){
+	var characters []byte
+	for _ , chars := range children_nodes{
+		childchar := chars.character
+		characters = append(characters,childchar)
+	}
+	// at this point characters is what we want
+	for i , val := range characters{
 		if input == val{
 			return true, i
 		}else{
