@@ -1,0 +1,11 @@
+---
+default:
+        cmd: | #/usr/bin/env bash
+
+
+                clear
+
+                cd ~/code/data_structures/sorting/bubbleSort-golang
+                go build
+                ./bubbleSort-golang
+

@@ -5,18 +5,19 @@ import(
 )
 
 func main(){
-	binary := tree{
-		root: nil,
+	var root = node{
+		Data:0,
+		Right: nil,
+		Left: nil,
 	}
-	fmt.Print()
-	binary.insert(2)
-	binary.insert(3)
-	binary.insert(1)
-	fmt.Println("root is:", binary.return_root())
-	binary.insert(22)
-	binary.insert(12)
-	binary.insert(4)
-	binary.traverse()
-	binary.delete_node(22)
-	binary.traverse()
+	root.Insert(1)
+	root.Insert(3)
+	root.Insert(-1)
+	root.Insert(-3)
+	fmt.Println(root.Right.Data)
+	fmt.Println(root.Right.Right.Data)
+	fmt.Println(root.Left.Data)
+	fmt.Println(root.Left.Left.Data)
+	fmt.Println(root.BFS(3))
 }
+

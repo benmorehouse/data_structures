@@ -1,0 +1,11 @@
+---
+default:
+        cmd: | #/usr/bin/env bash
+
+
+                clear
+
+                cd ~/code/data_structures/sorting/selectionSort-golang
+                go build
+                ./selectionSort-golang
+

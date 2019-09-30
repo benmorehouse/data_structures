@@ -1,131 +1,169 @@
 package main
 
 import(
-	"fmt"
+	"errors"
 )
 
 type node struct{
-	data int
-	left *node
-	right *node
-	parent *node
+	Data int
+	Right *node
+	Left *node
 }
 
-type tree struct{
-	root *node
-}
-
-func make_node(input int)(*node){
-	new_node := node{
-		data: input,
-		left: nil,
-		right: nil,
-		parent: nil,
+func (head *node) Insert(input int)error{
+	if head == nil{
+		return errors.New("Root node is nil")
 	}
-	return &new_node
-}
 
-func (bst *tree) insert(data int){
-	if bst.root == nil{
-		bst.root = make_node(data)
-		return
-	}else{
-		bst.insert_node(bst.root,data)
-	}
-}
-
-
-func (bst *tree) insert_node(entered_node *node, data int) {
-	// pass in a piece of data to the bst. Return error if there is something that happens with it
-	if data < entered_node.data{
-		if entered_node.left == nil{
-			entered_node.left = make_node(data)
-			entered_node.left.parent = entered_node
+	if input < head.Data{
+		if head.Left != nil{
+			return head.Left.Insert(input)
 		}else{
-			bst.insert_node(entered_node.left, data)
+			var newNode = node{
+				Data: input,
+				Right: nil,
+				Left: nil,
+			}
+
+			head.Left = &newNode
+			return nil
 		}
-	}else if data >= entered_node.data{
-		if entered_node.right == nil{
-			entered_node.right = make_node(data)
-			entered_node.right.parent = entered_node
+	}else if input >= head.Data{
+		if head.Right != nil{
+			return head.Right.Insert(input)
 		}else{
-			bst.insert_node(entered_node.right, data)
+			var newNode = node{
+				Data: input,
+				Right: nil,
+				Left: nil,
+			}
+
+			head.Right = &newNode
+			return nil
 		}
 	}
+
+	return errors.New("Something wrong with Insert function")
 }
 
-func (bst tree) return_root()(int){
-	return bst.root.data
-}
-
-func (bst tree) traverse(){
-	if bst.root == nil{
-		return
+func (head *node) Search(input int) error{
+	if head == nil{
+		return errors.New("Root node is nil")
 	}
 
-	bst.traverse_in_order(bst.root)
-}
-
-func (bst tree) traverse_in_order(entered_node *node){
-	if entered_node.left != nil{
-		bst.traverse_in_order(entered_node.left)
-	}
-
-	fmt.Println(entered_node.data)
-
-	if entered_node.right != nil{
-		bst.traverse_in_order(entered_node.right)
-	}
-}
-
-func (bst tree) delete_node(data int){
-	if bst.root == nil{
-		return
-	}
-	bst.delete_(bst.root,data)
-}
-
-func (bst *tree) delete_ (entered_node *node, data int){
-	if data < entered_node.data {
-		if entered_node.left == nil && entered_node.right == nil{
-			return
+	if input < head.Data{
+		if head.Left != nil{
+			return head.Left.Search(input)
 		}else{
-			bst.delete_(entered_node.left, data)
+			return errors.New("Node doesnt exists")
 		}
-	}else if data > entered_node.data{
-		if entered_node.left == nil && entered_node.right == nil{
-			return
+	}else if input > head.Data{
+		if head.Right != nil{
+			return head.Right.Search(input)
 		}else{
-			bst.delete_(entered_node.left, data)
+			return errors.New("Node doesnt exists")
 		}
 	}else{
-		if entered_node.left == nil && entered_node.right == nil{ // this is a leaf node at the end of a tree
-			entered_node = nil
-		}else if entered_node.left == nil && entered_node.right != nil{ // has right subtree
-			entered_node.parent.right = entered_node.right
-			entered_node.right.parent = entered_node.parent
-			entered_node = nil
-		}else if entered_node.left != nil && entered_node.right == nil{
-			entered_node.parent.left = entered_node.left
-			entered_node.left.parent = entered_node.parent
-			entered_node = nil
-		}else{ // has both left and right
-			next_node := bst.find_next_node(entered_node.right) // finds predessor from right subtree
-			temp := entered_node.data
-			entered_node.data = next_node.data
-			next_node.data = temp
-			bst.delete_(entered_node, entered_node.data)
+		return nil
+	}
+	return errors.New("Something wrong with search function")
+}
+
+func (head *node) BFS(input int)error{
+	var queue []*node
+	if head == nil{
+		return errors.New("Entered an empty node")
+	}else if head.Data == input{
+		head.Data == input{
+		return nil
+	}
+
+	if head.Right == nil{
+		queue = append(queue, head.Left)
+	}else if head.Left == nil{
+		queue = append(queue, head.Right)
+	}else{
+		queue = append(queue, head.Left)
+		queue = append(queue, head.Right)
+	}
+	return BFSHelper(input, queue)
+}
+
+func BFSHelper(input int, queue []*node) error{
+	var newQueue []*node
+	if len(queue) == 0{
+		return errors.New("couldnt find the node")
+	}
+	for i:=0;i<len(queue);i++{
+		if queue[i].Data == input{
+			return nil
+		}else{
+			if queue[i].Right == nil && queue[i].Left == nil{
+				continue
+			}else if queue[i].Right == nil{
+				newQueue = append(newQueue, queue[i].Left)
+			}else if queue[i].Left == nil{
+				newQueue = append(newQueue, queue[i].Right)
+			}else{
+				newQueue = append(newQueue, queue[i].Left)
+				newQueue = append(newQueue, queue[i].Right)
+			}
 		}
 	}
+	return BFSHelper(input, newQueue)
 }
 
-
-func (bst *tree) find_next_node(entered_node *node)(*node){
-	// given certain node, finds left most node
-	if entered_node.left == nil{
-		return entered_node
-	}else{
-		return bst.find_next_node(entered_node.left)
+func (head *node) DFS(input int)error{
+	if head == nil{
+		return errors.New("Entered an empty node")
+	}else if head.Data == input{
+		return nil
 	}
+
+	var stack []*node
+	stack = append(stack, head)
+	c := make[chan bool, 2] // using a buffered channel so we dont get more than two pushes through the channel
+
+	currentProcesses := 0
+	if head.Right != nil{
+		currentProcesses++
+		go DFSHelper(input, append(stack, head.Right), c)
+	}
+
+	if head.Left != nil{
+		currentProcesses++
+		go DFSHelper(input, append(stack, head.Left), c)
+	}
+
+	for len(c) != currentProcesses{
+		select{
+		case c <- false:
+			fmt.Println("Found one of the children to be false")
+		case c <- true:
+			fmt.Println("Found one of the children to be false")
+			return nil
+		default:
+			continue
+		}
+	}
+
+	return errors.New("Node not found")
+
 }
 
+func DFSHelper(input int, stack []*node, done chan bool){
+	if stack[len(stack)-1].Data == input{
+		done <- true
+		return
+	}else{
+
+		if stack[len(stack)-1].Left != nil{
+			stack = append(stack,stack[len(stack)-1].Left)
+			DFSHelper(input, stack
+		}
+
+
+
+
+
+}
