@@ -1,0 +1,11 @@
+---
+default:
+        cmd: | #/usr/bin/env bash
+
+
+                clear
+
+                cd ~/repositories/data_structures/doublyLinkedList-golang
+                go build
+                ./doubleLinkedList-golang
+

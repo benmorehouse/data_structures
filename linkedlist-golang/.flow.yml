@@ -8,3 +8,6 @@ default:
                 cd ~/repositories/data_structures/linkedlist-golang
                 go build
                 ./linkedlist-golang
+
+
+

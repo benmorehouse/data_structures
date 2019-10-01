@@ -3,9 +3,11 @@ package main
 import(
 	"fmt"
 	"errors"
+	/*
 	"log"
 	"math/rand"
 	"time"
+	*/
 )
 
 type Node struct{
@@ -137,8 +139,34 @@ func GetNodeRecursive(cur *Node,target int) (int, error){
 	return GetNodeRecursiveHelper(cur,0,target)
 }
 
+func isPalindrome(head *Node)(bool){
+	current := head
+	var array []int
+	for current != nil{
+		array = append(array, current.Data)
+		current = current.Next
+	}
+
+	if len(array) == 1{
+		return true
+	}else if len(array)==2{
+		if array[0] == array[1]{
+			return true
+		}else{
+			return false
+		}
+	}
+	for i:=0;i<len(array)/2;i++{
+		if array[i] != array[len(array)-1-i]{
+			return false
+		}
+	}
+	return true
+}
+
+
 func main(){
-	var head *Node
+	/*var head *Node
 	rand.Seed(time.Now().UTC().UnixNano())
 	head = head.Append(rand.Intn(100))
 	head = head.Append(rand.Intn(100))
@@ -159,6 +187,15 @@ func main(){
 	fmt.Println(selectedData)
 	selectedData, err = GetNodeRecursive(head, 2)
 	fmt.Println(selectedData)
+	fmt.Print
+	*/
+	var head *Node
+	head = head.Append(1)
+	head = head.Append(2)
+	head = head.Append(3)
+	head = head.Append(2)
+	head = head.Append(1)
+	fmt.Println(isPalindrome(head))
 }
 
 /*
