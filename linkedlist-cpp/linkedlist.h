@@ -16,6 +16,9 @@ class linkedlist{
 		void append(int);
 		void traverse(node*);
 		node *return_head();
+		linkedlist operator + (linkedlist const &obj){
+			linkedlist returnVal;	
+		}
 
 	private:
 		node *head;

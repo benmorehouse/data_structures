@@ -80,7 +80,7 @@ func (this *doubleLinkedList) Delete(input int) error{
 }
 
 func main(){
-
+	fmt.Println("")
 }
 
 

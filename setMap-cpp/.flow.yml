@@ -1,0 +1,12 @@
+---
+default:
+        cmd: | #/usr/bin/env bash
+
+
+                clear
+
+                cd ~/repositories/data_structures/setMap-cpp
+                clang++ -g main.cpp -o cs
+                ./cs
+
+
