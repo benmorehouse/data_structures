@@ -1,0 +1,11 @@
+---
+default:
+        cmd: | #/usr/bin/env bash
+
+
+                clear
+
+                cd ~/repositories/data_structures/sorting/quickSort-golang
+                go build
+                ./quickSort-golang
+
