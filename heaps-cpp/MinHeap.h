@@ -38,7 +38,7 @@ class MinHeap {
 		std::vector<int> array; 
 		int d; // d is the max size of each branch
 		void heapify(int index);
-
+		std::vector<int> addHistory; // this will hold in its nth value the index you can find it in array
 		int addCalls;
 		
 		// whatever you need to naturally store things.
