@@ -1,0 +1,10 @@
+---
+default:
+        cmd: | #/usr/bin/env bash
+
+
+                clear
+
+                cd ~/repositories/data_structures/binarytree-cpp
+                clang++ -g bst.cpp main.cpp -o cs
+                ./cs

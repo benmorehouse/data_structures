@@ -32,14 +32,17 @@ class MinHeap {
 
 		bool isEmpty ();
 		 /* returns true iff there are no elements on the heap. */
-		
 		void print();
+
 	private:
 		std::vector<int> array; 
 		int d; // d is the max size of each branch
 		void heapify(int index);
-		std::vector<int> addHistory; // this will hold in its nth value the index you can find it in array
-		int addCalls;
+		
+		std::vector<int> nthValue; // this indexing is aligned with the indexing for array. the value will be the nth time it was added. If it was deleted then it will be evaluated to -1
+		std::vector<int> nthValueIndexInArray; // this indexing is aligned as which was added first...  the value will be the index the nth added value is in in this->array
+		
+		int addCalls; // dont get rid of this... size of vectors is variable! So keep this as a constant separate from them
 		
 		// whatever you need to naturally store things.
 // You may also add helper functions here.

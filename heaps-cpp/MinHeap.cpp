@@ -25,14 +25,16 @@ void MinHeap::remove(){
 int MinHeap::add(int item){
 	if(this->isEmpty()){
 		this->array.push_back(item);
+		this->nthValue.push_back(this->addCalls);
+		this->nthValueIndexInArray.push_back(0);	
 		this->addCalls++;
-		this->addHistory.push_back(item);	
 		return this->addCalls;
 	}else{
 		this->array.push_back(item);
+		this->nthValue.push_back(this->addCalls);
+		this->nthValueIndexInArray.push_back(this->array.size()-1);	
 		this->heapify(this->array.size()-1);	
 		this->addCalls++;
-		this->addHistory.push_back(item);	
 		return this->addCalls;
 	}
 }
@@ -42,7 +44,6 @@ void MinHeap::heapify(int index){ // we either call this with index at end or in
 		// this means we are removing 
 		// we heapify going down
 		int currentNodeIndex = 0; // because we move the last node to the beginning and then we heapify down 
-		// call the size function it will return non-zero index
 		bool changed = true;
 		while(changed){
 			int minChildIndex = currentNodeIndex;
@@ -61,6 +62,8 @@ void MinHeap::heapify(int index){ // we either call this with index at end or in
 			}
 
 			std::swap(this->array[minChildIndex],this->array[currentNodeIndex]);	
+			std::swap(this->nthValue[minChildIndex],this->nthValue[currentNodeIndex]);	
+			std::swap(this->nthValueIndexInArray[this->nthValue[minChildIndex]],this->nthValueIndexInArray[this->nthValue[currentNodeIndex]]);	
 			currentNodeIndex = minChildIndex;
 		}
 	}else{
@@ -70,6 +73,8 @@ void MinHeap::heapify(int index){ // we either call this with index at end or in
 		while(this->array[currentNodeIndex] < this->array[parentIndex]){
 			// this means we dont have the min heap property and need to rearrange it...
 			std::swap(this->array[currentNodeIndex],this->array[parentIndex]);
+			std::swap(this->nthValueIndexInArray[this->nthValue[parentIndex]],this->nthValueIndexInArray[this->nthValue[currentNodeIndex]]);
+			std::swap(this->nthValue[parentIndex],this->nthValue[currentNodeIndex]);	
 			currentNodeIndex = parentIndex;
 			parentIndex = (parentIndex/this->d);
 		}
@@ -86,36 +91,34 @@ void MinHeap::print(){
 	for(int i = 0;i < this->array.size(); i++){
 		std::cout<<this->array[i]<<" ";
 	}
+
 	std::cout<<std::endl;
-	for(int i = 0;i < this->addHistory.size();i++){
-		std::cout<<this->addHistory[i]<<" ";
+/*
+	for(int i = 0;i < this->nthValueIndexInArray.size(); i++){
+		std::cout<<"the "<<i<<"th term added to array is"<<this->array[this->nthValueIndexInArray[i]]<<" "<<std::endl;
+	}
+*/
+	std::cout<<"HELLO "<<this->array[this->nthValueIndexInArray[3]]<<std::endl; // this tells us where to look in array... specifically here you are going to look at what was added the 4th time
+	std::cout<<this->nthValue[this->nthValueIndexInArray[3]]<<std::endl; //this->nthValueIndexInArray[3] 
+	std::cout<<"the first term added to the array was:"<<this->array[this->nthValueIndexInArray[0]]<<" and it now is in the index:"<<this->nthValue[0]<<std::endl;
+	std::cout<<this->nthValueIndexInArray[3]<<std::endl;
+
+	std::cout<<std::endl;
+	
+	for(int i = 0;i < this->nthValue.size(); i++){
+		std::cout<<this->nthValue[i]<<" ";
 	}
 }
 
 void MinHeap::update(int nth, int priority){
-	if(nth > this->addHistory.size()){
+	if(nth >= this->nthValueIndexInArray.size() || nth < 0){
+		//prevents bad input which would lead to seg faults
 		return;
-	}
-	int desiredNumber = this->addHistory[nth];
-	int left = 0;
-	int right = this->addHistory.size()-1;
-	int index = -1;
-	while(left != right){
-		if(this->array[left] == desiredNumber){
-			index = left;
-			break;	
-		}
-		else if(this->array[right] == desiredNumber){
-			index = right;
-			break;	
-		}
-	}
-
-	if(index == -1){
+	}else if(this->nthValueIndexInArray[nth] == -1){
+		//this means it was deleted before this operation
 		return;
 	}else{
-		this->array[index] = priority;
-		this->heapify(index);
+		// go through, find the nth value in nthValueIndex, find value in array and then idk what you do after...
 	}
 }
 
