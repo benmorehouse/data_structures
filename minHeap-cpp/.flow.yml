@@ -5,6 +5,6 @@ default:
 
                 clear
 
-                cd ~/repositories/data_structures/heaps-cpp
+                cd ~/repositories/data_structures/minHeap-cpp
                 clang++ -g MinHeap.cpp main.cpp -o cs
                 ./cs
