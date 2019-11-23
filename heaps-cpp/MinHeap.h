@@ -38,10 +38,8 @@ class MinHeap {
 		std::vector<int> array; 
 		int d; // d is the max size of each branch
 		void heapify(int index);
-		
 		std::vector<int> nthValue; // this indexing is aligned with the indexing for array. the value will be the nth time it was added. If it was deleted then it will be evaluated to -1
 		std::vector<int> nthValueIndexInArray; // this indexing is aligned as which was added first...  the value will be the index the nth added value is in in this->array
-		
 		int addCalls; // dont get rid of this... size of vectors is variable! So keep this as a constant separate from them
 		void bubbleDown(int);		
 		void bubbleUp(int);		
