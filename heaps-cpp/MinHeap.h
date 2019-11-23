@@ -43,7 +43,8 @@ class MinHeap {
 		std::vector<int> nthValueIndexInArray; // this indexing is aligned as which was added first...  the value will be the index the nth added value is in in this->array
 		
 		int addCalls; // dont get rid of this... size of vectors is variable! So keep this as a constant separate from them
-		
+		void bubbleDown(int);		
+		void bubbleUp(int);		
 		// whatever you need to naturally store things.
 // You may also add helper functions here.
 };

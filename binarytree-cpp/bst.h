@@ -23,6 +23,7 @@ public:
 
 	bool isBST(Node *root);
 	bool isBalanced(Node *root);
+	bool isBSTHelper(Node *root,int,int);
 	int getHeight(Node *root);
 };
 
