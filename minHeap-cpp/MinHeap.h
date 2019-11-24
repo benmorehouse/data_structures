@@ -3,14 +3,16 @@
 
 class MinHeap {
 	struct Item {
-		int priority;	
-		int val;
-		int currentPosition;
+		int priority;	// its priority
+		int val; // its value. 
+		int currentPosition;// stands for the nodes current position in the array.
+		int nthTimeAdded;// stands for when the node was added ie its position index in this->nthValueIndexInArray
 	
-		Item(int v, int nth){
+		Item(int v, int nth, int _nthTimeAdded){
 			val = v;
 			priority = v; // for now it will be v because of testing but later on we will update the priority to be whatever we have in our A* search...
 			currentPosition = nth;
+			nthTimeAdded = _nthTimeAdded;
 		}
 	};
 

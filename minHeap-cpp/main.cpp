@@ -7,12 +7,7 @@
 int main(){
 	MinHeap heap(2);
 	heap.add(1);
-	heap.add(4);
-	heap.add(0);
-	heap.add(2);
-	heap.add(3);
-	heap.remove();
-	heap.add(0);
+	std::cout<<"\n\n\n\n\n"; // look at this last call to remove
 	std::cout<<"print returns:"<<std::endl; heap.print();
 	return 0;
 }
