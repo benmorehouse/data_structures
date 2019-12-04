@@ -1,0 +1,11 @@
+---
+default:
+        cmd: | #!/usr/bin/env bash
+
+                set -e
+
+                clear
+
+                cd ~/repositories/csci104Proj/hw6/trees
+                make 
+                ./cs
