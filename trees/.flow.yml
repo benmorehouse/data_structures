@@ -6,6 +6,6 @@ default:
 
                 clear
 
-                cd ~/repositories/csci104Proj/hw6/trees
+                cd ~/repositories/data_structures/trees
                 make 
                 ./cs

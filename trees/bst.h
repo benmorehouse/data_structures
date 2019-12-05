@@ -205,7 +205,7 @@ public:
 
 	virtual void insert(const std::pair<Key, Value>& keyValuePair);
 	void clear();
-	void print() const;
+	virtual void print() const; // calling virtual so i can print my own trees elsewhere
 
 public:
 	/**
@@ -238,15 +238,14 @@ public:
 protected:
 	Node<Key, Value>* internalFind(const Key& key) const;
 	Node<Key, Value>* getSmallestNode() const;
-	void printRoot (Node<Key, Value>* root) const;
-
+	virtual	void printRoot (Node<Key, Value>* root) const;
+	
 	/* Helper functions are strongly encouraged to help separate the problem
 	   into smaller pieces. You should not need additional data members. */
 protected:
 	Node<Key, Value>* mRoot; // the root of the binary search tree
 	void clearHelper(Node<Key,Value>*);
 	void printHelper(Node<Key,Value>*) const;
-	Node<Key,Value>* BSTInsertion(const std::pair<Key, Value>& keyValuePair);
 };
 
 /* 
@@ -385,6 +384,7 @@ void BinarySearchTree<Key, Value>::print() const
 	printRoot(mRoot);
 	std::cout << "\n";
 	*/
+	std::cout<<"Ran print"<<std::endl;
 	printHelper(this->mRoot);
 	
 }
@@ -392,6 +392,7 @@ void BinarySearchTree<Key, Value>::print() const
 template<typename Key, typename Value>
 void BinarySearchTree<Key,Value>::printHelper(Node<Key,Value>* currentNode) const{
 	if(currentNode == nullptr){
+		std::cout<<"there is an empty node"<<std::endl;
 		return;
 	}
 	this->printHelper(currentNode->getLeft());
@@ -400,7 +401,7 @@ void BinarySearchTree<Key,Value>::printHelper(Node<Key,Value>* currentNode) cons
 	this->printHelper(currentNode->getRight());
 }
 
-/**
+/*
 * Returns an iterator to the "smallest" item in the tree
 */
 template<typename Key, typename Value>
@@ -439,15 +440,10 @@ typename BinarySearchTree<Key, Value>::iterator BinarySearchTree<Key, Value>::fi
 template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
 {
-	this->BSTInsertion(keyValuePair);
-}
-
-template<typename Key, typename Value>
-Node<Key, Value>* BinarySearchTree<Key, Value>::BSTInsertion(const std::pair<Key, Value>& keyValuePair){
 	if(this->mRoot == nullptr){
 		Node<Key,Value> *newRootNode = new Node<Key,Value>(keyValuePair.first,keyValuePair.second,nullptr); // we make the node and dynamically allocate it here.
 		this->mRoot = newRootNode;
-		return nullptr;
+		return;
 	}
 	Node<Key, Value> *currentNode = this->mRoot;
 	// we want to use the iterator and go down the tree
@@ -457,7 +453,7 @@ Node<Key, Value>* BinarySearchTree<Key, Value>::BSTInsertion(const std::pair<Key
 			if(currentNode->getLeft() == nullptr){
 				Node<Key,Value> *newNode = new Node<Key,Value>(keyValuePair.first,keyValuePair.second,currentNode); 
 				currentNode->setLeft(newNode);
-				return newNode;
+				return;
 			}else{
 				currentNode = currentNode->getLeft();
 				continue;
@@ -466,14 +462,14 @@ Node<Key, Value>* BinarySearchTree<Key, Value>::BSTInsertion(const std::pair<Key
 			if(currentNode->getRight() == nullptr){
 				Node<Key,Value> *newNode = new Node<Key,Value>(keyValuePair.first,keyValuePair.second,currentNode); 
 				currentNode->setRight(newNode);
-				return newNode;
+				return;
 			}else{
 				currentNode = currentNode->getRight();
 				continue;
 			}
 		}else{
 			currentNode->setValue(keyValuePair.second);
-			return nullptr;
+			return;
 		}
 	}
 	// if it gets to here then this is a bad data structure and I will exit the program.
