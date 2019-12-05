@@ -41,6 +41,11 @@ int main(){
 	avl->insert(negativetwoInsert);
 	avl->insert(seventhInsert);
 	avl->insert(sixthInsert);
-	std::cout<<avl->find(
+	avl->remove(2);
+	avl->remove(3); 
 	avl->print();
+
+	/*
+	 * Things broken with AVL remove: When you add above sequence then delete 2, then 3, right subtree is incorrect.
+	*/
 }

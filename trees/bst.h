@@ -386,13 +386,11 @@ void BinarySearchTree<Key, Value>::print() const
 	*/
 	std::cout<<"Ran print"<<std::endl;
 	printHelper(this->mRoot);
-	
 }
 
 template<typename Key, typename Value>
 void BinarySearchTree<Key,Value>::printHelper(Node<Key,Value>* currentNode) const{
 	if(currentNode == nullptr){
-		std::cout<<"there is an empty node"<<std::endl;
 		return;
 	}
 	this->printHelper(currentNode->getLeft());
@@ -542,6 +540,7 @@ Node<Key, Value>* BinarySearchTree<Key, Value>::internalFind(const Key& key) con
 			return currentNode;	
 		}
 	}
+	return nullptr;
 }
 
 /**
