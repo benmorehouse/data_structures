@@ -25,12 +25,22 @@ int main(){
 	const std::pair<int,int>fourthInsert(4,4);
 	const std::pair<int,int>fifthInsert(5,5);
 	const std::pair<int,int>sixthInsert(6,6);
+	const std::pair<int,int>seventhInsert(7,6);
+	const std::pair<int,int>zeroInsert(0,6);
+	const std::pair<int,int>negativeInsert(-1,6);
+	const std::pair<int,int>negativethreeInsert(-3,6);
+	const std::pair<int,int>negativetwoInsert(-2,6);
 
-	avl->insert(thirdInsert);
-	avl->insert(secondInsert);
-	avl->insert(fourthInsert);
 	avl->insert(firstInsert);
+	avl->insert(secondInsert);
+	avl->insert(thirdInsert);
+	avl->insert(fourthInsert);
 	avl->insert(fifthInsert);
+	avl->insert(zeroInsert);
+	avl->insert(negativeInsert);
+	avl->insert(negativetwoInsert);
+	avl->insert(seventhInsert);
 	avl->insert(sixthInsert);
+	std::cout<<avl->find(
 	avl->print();
 }

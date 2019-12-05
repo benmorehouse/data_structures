@@ -145,21 +145,16 @@ Begin implementations for the AVLTree class.
 */
 
 /**
+ *if(currentNode->getKey() == -2){
+				std::cout<<"test"<<std::endl;
+				return;
+			}
+ *
 * Insert function for a key value pair. Finds location to insert the node and then balances the tree. 
 */
 template<typename Key, typename Value>
 void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
 {
-	/*
-	 *	 psuedocode
-	 *
-	 *	 1. insert into binary search tree.
-	 *	 2. recurse up and update heights as we go
-	 *	 	check to make sure node heights never differ by more than one.
-	 *	 	If they do have an inbalance, then you need to rotate accordingly.
-	 *	 	After you rotate, update and ensure that they are balanced.
-	 *	 
-	 */	
 	AVLNode<Key,Value> *currentNode = this->BSTInsertion(keyValuePair); // first we do some basic insertion!
 	if(currentNode == nullptr){
 		return;
@@ -168,12 +163,9 @@ void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
 	bool balanced = true;
 	while(balanced){
 		if(currentNode == nullptr){
-			std::cout<<"Broke loop"<<std::endl;
 			break;
 		}
 		this->SetHeightHelper(currentNode);// sets the height as it goes up.
-		std::cout<<"currentNode is"<<currentNode->getKey()<<std::endl;	
-		std::cout<<"currentNode height is"<<currentNode->getHeight()<<std::endl;	
 		if(currentNode->getLeft() == nullptr && currentNode->getRight() == nullptr){ 
 			currentNode = currentNode->getParent();	
 			continue;
@@ -229,6 +221,7 @@ void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
 			return;
 		}else{
 			if(currentNode == static_cast<AVLNode<Key,Value>*>(this->mRoot)){
+				this->SetHeightHelper(currentNode);// sets the height as it goes up.
 				break;
 			}else{
 				currentNode = currentNode->getParent();
@@ -252,6 +245,7 @@ void AVLTree<Key, Value>::SetHeightHelper(AVLNode<Key,Value>*currentNode){
 		currentNode->setHeight(currentNode->getLeft()->getHeight()+1);
 		return;
 	}else{
+		
 		int newHeight = std::max(currentNode->getRight()->getHeight(),currentNode->getLeft()->getHeight());
 		currentNode->setHeight(newHeight+1);
 	}
@@ -318,6 +312,7 @@ template<typename Key, typename Value>
 void AVLTree<Key,Value>::LeftLeft(AVLNode<Key,Value> *zNode,AVLNode<Key,Value> *yNode,AVLNode<Key,Value> *xNode){
 	AVLNode<Key,Value> *T3 = yNode->getRight();
 	if(zNode->getParent() != nullptr){	
+		yNode->setParent(zNode->getParent());
 		if(zNode == zNode->getParent()->getRight()){
 			zNode->getParent()->setRight(yNode);
 		}else{
@@ -326,6 +321,7 @@ void AVLTree<Key,Value>::LeftLeft(AVLNode<Key,Value> *zNode,AVLNode<Key,Value> *
 	}else{
 		this->mRoot = yNode;
 	}
+	yNode->setParent(zNode->getParent());
 	zNode->setParent(yNode);
 	zNode->setLeft(T3);
 	yNode->setRight(zNode);
@@ -341,32 +337,34 @@ void AVLTree<Key,Value>::LeftLeft(AVLNode<Key,Value> *zNode,AVLNode<Key,Value> *
 
 template<typename Key, typename Value>
 void AVLTree<Key,Value>::RightLeft(AVLNode<Key,Value> *zNode,AVLNode<Key,Value> *yNode,AVLNode<Key,Value> *xNode){ // check this 
-	AVLNode<Key,Value> *T3 = xNode->getRight();
+	AVLNode<Key,Value> *T2 = xNode->getRight();
 	zNode->setRight(xNode);
 	xNode->setParent(zNode);
-	yNode->setParent(xNode);
 	xNode->setRight(yNode);
-	yNode->setLeft(T3);
-	T3->setParent(yNode);
-	this->LeftLeft(zNode,xNode,yNode);
-}
-
-template<typename Key, typename Value>
-void AVLTree<Key,Value>::LeftRight(AVLNode<Key,Value> *zNode,AVLNode<Key,Value> *yNode,AVLNode<Key,Value> *xNode){ // check this
-	AVLNode<Key,Value> *T2 = xNode->getRight();
-	zNode->setLeft(xNode);
-	xNode->setParent(zNode);
-	xNode->setLeft(yNode);
 	yNode->setParent(xNode);
-	yNode->setRight(T2);
-	T2->setParent(yNode);
+	yNode->setLeft(T2);
+	if(T2 != nullptr){
+		T2->setParent(yNode);
+	}
 	this->RightRight(zNode,xNode,yNode);
 }
 
 template<typename Key, typename Value>
+void AVLTree<Key,Value>::LeftRight(AVLNode<Key,Value> *zNode,AVLNode<Key,Value> *yNode,AVLNode<Key,Value> *xNode){ // check this
+	AVLNode<Key,Value> *T3 = xNode->getLeft();
+	zNode->setLeft(xNode);
+	xNode->setParent(zNode);
+	xNode->setLeft(yNode);
+	yNode->setParent(xNode);
+	yNode->setRight(T3);
+	if(T3 != nullptr){
+		T3->setParent(yNode);
+	}
+	this->LeftLeft(zNode,xNode,yNode);
+}
+
+template<typename Key, typename Value>
 void AVLTree<Key,Value>::RightRight(AVLNode<Key,Value> *zNode,AVLNode<Key,Value> *yNode,AVLNode<Key,Value> *xNode){
-	std::cout<<"test"<<std::endl;
-	
 	AVLNode<Key,Value> *T2 = yNode->getLeft();
 	if(zNode->getParent() != nullptr){	
 		if(zNode == zNode->getParent()->getRight()){
@@ -389,12 +387,6 @@ void AVLTree<Key,Value>::RightRight(AVLNode<Key,Value> *zNode,AVLNode<Key,Value>
 	this->SetHeightHelper(xNode);
 	this->SetHeightHelper(zNode);
 	this->SetHeightHelper(yNode);
-	std::cout<<"z node is:"<<zNode->getValue()<<std::endl;
-	std::cout<<"z node height is:"<<zNode->getHeight()<<std::endl;
-	std::cout<<"y node is:"<<yNode->getValue()<<std::endl;
-	std::cout<<"y node height is:"<<yNode->getHeight()<<std::endl;
-	std::cout<<"x node is:"<<xNode->getValue()<<std::endl;
-	std::cout<<"x node height is:"<<xNode->getHeight()<<std::endl;
 }
 
 /**
@@ -421,15 +413,19 @@ void AVLTree<Key,Value>::printHelper(AVLNode<Key,Value>* currentNode) const{
 	}
 	this->printHelper(currentNode->getLeft());
 	if(currentNode == static_cast<AVLNode<Key,Value>*>(this->mRoot)){std::cout<<"The root is:";}
-	std::cout<<currentNode->getItem().first<<std::endl;
-	std::cout<<"height is"<<currentNode->getHeight()<<std::endl;
+	std::cout<<"  node is:"<<currentNode->getItem().first<<std::endl;
+	std::cout<<"height is:"<<currentNode->getHeight()<<std::endl;
 	this->printHelper(currentNode->getRight());
 }
 
 template<typename Key, typename Value>
 void AVLTree<Key, Value>::remove(const Key& key)
 {
-
+	// when deleting with 2 children, swap with successor value.
+	// when deleting with 1 children, swap with child
+	// make sure you trace all the way up and ensure that it still is balanced!
+	AVLNode<Key,Value>*target = this->internalFind(key);	
+	std::cout<<target->getKey()<<std::endl;
 }
 
 /*

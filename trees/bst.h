@@ -397,7 +397,7 @@ void BinarySearchTree<Key,Value>::printHelper(Node<Key,Value>* currentNode) cons
 	}
 	this->printHelper(currentNode->getLeft());
 	if(currentNode == this->mRoot){std::cout<<"The root is:";}
-	std::cout<<currentNode->getItem().first<<std::endl;
+	std::cout<<currentNode->getKey()<<std::endl;
 	this->printHelper(currentNode->getRight());
 }
 
