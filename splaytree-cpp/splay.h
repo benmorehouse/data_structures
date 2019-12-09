@@ -195,6 +195,7 @@ void SplayTree<Key, Value>::SplayUp(Node<Key,Value>* currentNode){
 				this->LeftLeft(yNode->getParent(),yNode,zNode);
 				steps++;
 			}else if(parent->getLeft() == currentNode && parent->getParent()->getRight() == parent){
+				//right left
 				Node<Key,Value>* zNode = parent;
 				Node<Key,Value>* yNode = currentNode;
 				Node<Key,Value>* xNode = currentNode->getLeft();

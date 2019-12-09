@@ -1,0 +1,13 @@
+---
+default:
+        cmd: | #/usr/bin/env bash
+
+
+                clear
+
+                cd ~/repositories/data_structures/splayTree-golang
+                go build
+                ./splayTree-golang
+
+
+
