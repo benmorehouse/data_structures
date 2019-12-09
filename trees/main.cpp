@@ -3,9 +3,7 @@
 #include <iostream>
 
 int main(){
-/*
 	BinarySearchTree<int,int> *bst = new BinarySearchTree<int,int>();
-	bst->clear();
 	const std::pair<int,int>firstInsert(1,1);
 	const std::pair<int,int>secondInsert(2,2);
 	const std::pair<int,int>thirdInsert(3,3);
@@ -17,7 +15,15 @@ int main(){
 	bst->insert(firstInsert);
 	bst->insert(secondInsert);
 	bst->print();
-*/
+	bst->clear();
+	bst->insert(thirdInsert);
+	bst->insert(fourthInsert);
+	bst->insert(fifthInsert);
+	bst->insert(firstInsert);
+	bst->insert(secondInsert);
+	bst->print();
+
+/*
 	AVLTree<int,int> *avl = new AVLTree<int,int>();
 	const std::pair<int,int>firstInsert(1,1);
 	const std::pair<int,int>secondInsert(2,2);
@@ -45,6 +51,7 @@ int main(){
 	avl->remove(3); 
 	avl->print();
 
+*/
 	/*
 	 * Things broken with AVL remove: When you add above sequence then delete 2, then 3, right subtree is incorrect.
 	*/

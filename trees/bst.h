@@ -384,7 +384,6 @@ void BinarySearchTree<Key, Value>::print() const
 	printRoot(mRoot);
 	std::cout << "\n";
 	*/
-	std::cout<<"Ran print"<<std::endl;
 	printHelper(this->mRoot);
 }
 
@@ -481,7 +480,10 @@ void BinarySearchTree<Key, Value>::insert(const std::pair<Key, Value>& keyValueP
 template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::clear()
 {
-	this->clearHelper(this->mRoot);
+	if(this->mRoot != nullptr){
+		this->clearHelper(this->mRoot);
+	}
+	this->mRoot = nullptr;
 }
 
 /*
